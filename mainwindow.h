@@ -21,6 +21,8 @@ private slots:
 
     void on_clubCombox_currentIndexChanged(int index);
 
+    void on_BrowseBtn_clicked();
+
 private:
     Ui::MainWindow *ui;
 

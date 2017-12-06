@@ -18,7 +18,7 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>30</y>
+      <y>80</y>
       <width>101</width>
       <height>31</height>
      </rect>
@@ -28,9 +28,9 @@
     <property name="geometry">
      <rect>
       <x>120</x>
-      <y>30</y>
+      <y>80</y>
       <width>311</width>
-      <height>211</height>
+      <height>161</height>
      </rect>
     </property>
     <property name="readOnly">
@@ -64,7 +64,7 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>10</y>
+      <y>60</y>
       <width>56</width>
       <height>17</height>
      </rect>
@@ -90,7 +90,7 @@
     <property name="geometry">
      <rect>
       <x>470</x>
-      <y>10</y>
+      <y>60</y>
       <width>71</width>
       <height>17</height>
      </rect>
@@ -103,13 +103,62 @@
     <property name="geometry">
      <rect>
       <x>470</x>
-      <y>30</y>
+      <y>80</y>
       <width>371</width>
-      <height>481</height>
+      <height>431</height>
      </rect>
     </property>
     <property name="textInteractionFlags">
      <set>Qt::NoTextInteraction</set>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="PathLineEdit">
+    <property name="geometry">
+     <rect>
+      <x>80</x>
+      <y>20</y>
+      <width>651</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>11</pointsize>
+     </font>
+    </property>
+    <property name="readOnly">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="BrowseBtn">
+    <property name="geometry">
+     <rect>
+      <x>749</x>
+      <y>20</y>
+      <width>91</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Browse</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_4">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>20</y>
+      <width>61</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>11</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>File Path:</string>
     </property>
    </widget>
   </widget>

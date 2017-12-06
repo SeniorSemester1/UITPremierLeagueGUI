@@ -2,6 +2,8 @@
 #include "ui_mainwindow.h"
 #include "Logger.h"
 
+#include <QFileDialog>
+
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
@@ -9,20 +11,6 @@ MainWindow::MainWindow(QWidget *parent) :
     currSeason = 0;
 
     ui->setupUi(this);
-    try {
-        manager = new LeagueManager();
-        manager->readData("Input.txt");
-        manager->writeClub2File("CLUBS.txt");
-        manager->writePlayer2File();
-    } catch (int ex) {
-
-    }
-
-    for (int idxSeason = 0; idxSeason < manager->getLeague()->getSeasonNum(); idxSeason++) {
-        ui->seasonCombox->addItem(QVariant(idxSeason + 1).toString());
-    }
-
-    ui->PrcTxt->setText(QString::fromStdString(Logger::logStr));
 }
 
 MainWindow::~MainWindow()
@@ -82,4 +70,26 @@ std::list<ClubRecord>::iterator MainWindow::iterate2Index(int idx) {
         index++;
     }
     return ite;
+}
+
+void MainWindow::on_BrowseBtn_clicked()
+{
+    QString filename = QFileDialog::getOpenFileName();
+    ui->PathLineEdit->setText(filename);
+
+    try {
+         manager = new LeagueManager();
+         manager->readData(filename.toStdString());
+         manager->writeClub2File("CLUBS.txt");
+         manager->writePlayer2File();
+         for (int idxSeason = 0; idxSeason < manager->getLeague()->getSeasonNum(); idxSeason++) {
+          ui->seasonCombox->addItem(QVariant(idxSeason + 1).toString());
+         }
+        ui->PrcTxt->setText(QString::fromStdString(Logger::logStr));
+
+    } catch (int ex) {
+        ui->PrcTxt->setText(QString::fromStdString(Logger::logStr));
+    }
+
+
 }
