@@ -20,6 +20,7 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_seasonCombox_currentIndexChanged(int index)
 {
+    //in case clear the combo box will call this function
     if (index == -1)
         return;
 
@@ -33,7 +34,8 @@ void MainWindow::on_seasonCombox_currentIndexChanged(int index)
     std::list<ClubRecord> clubRecord = manager->getLeague()->getSeason(index)
             .getClubManager()->getClubsList();
 
-    int startIdx = 0;
+
+    int startIdx = 0; //Begin club showing in combo box
     for (std::list<ClubRecord>::iterator ite = clubRecord.begin(); ite != clubRecord.end(); ite++) {
         if (ite->getName()[0] == '*') {
             startIdx++;
@@ -47,32 +49,30 @@ void MainWindow::on_seasonCombox_currentIndexChanged(int index)
 
 void MainWindow::on_clubCombox_currentIndexChanged(int index)
 {
+    //in case clear the combo box will call this function
     if (index == -1)
         return;
 
-    std::list<ClubRecord>::iterator ite = iterate2Index(index);
-
-    if (ite->getPlayerManager() != NULL)
-        ui->clubTxt->setText(QString::fromStdString(ite->getPlayerManager()->writeToString()));
-    else
-        ui->clubTxt->setText("");
+    std::list<ClubRecord>::iterator clubIterator = iterate2Index(index);
+    ui->clubTxt->setText(QString::fromStdString(clubIterator->getPlayerManager()->writeToString()));
 }
 
 std::list<ClubRecord>::iterator MainWindow::iterate2Index(int idx) {
     std::list<ClubRecord> clubRecord = manager->getLeague()->getSeason(this->currSeason)
             .getClubManager()->getClubsList();
 
-    int index = 0;
-    std::list<ClubRecord>::iterator ite = clubRecord.begin();
-    for (ite; ite != clubRecord.end(); ite++) {
-        if (ite->getName()[0] == '*')
+    int currIdx = 0;
+    //Iterate to index by pass deleted record
+    std::list<ClubRecord>::iterator clubIterator = clubRecord.begin();
+    for (clubIterator; clubIterator != clubRecord.end(); clubIterator++) {
+        if (clubIterator->getName()[0] == '*')
             continue;
 
-        if (index == idx)
+        if (currIdx == idx)
             break;
-        index++;
+        currIdx++;
     }
-    return ite;
+    return clubIterator;
 }
 
 void MainWindow::on_BrowseBtn_clicked()
@@ -89,14 +89,14 @@ void MainWindow::on_BrowseBtn_clicked()
 
     try {
 
-         manager = new LeagueManager();
-         manager->readData(filename.toStdString());
-         manager->writeClub2File("CLUBS.txt");
-         manager->writePlayer2File();
+        manager = new LeagueManager();
+        manager->readData(filename.toStdString());
+        manager->writeClub2File("CLUBS.txt");
+        manager->writePlayer2File();
 
-         for (int idxSeason = 0; idxSeason < manager->getLeague()->getSeasonNum(); idxSeason++) {
-          ui->seasonCombox->addItem(QVariant(idxSeason + 1).toString());
-         }
+        for (int idxSeason = 0; idxSeason < manager->getLeague()->getSeasonNum(); idxSeason++) {
+            ui->seasonCombox->addItem(QVariant(idxSeason + 1).toString());
+        }
         ui->PrcTxt->setText(QString::fromStdString(Logger::logStr));
 
     } catch (int ex) {

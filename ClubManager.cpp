@@ -10,17 +10,21 @@ ClubManager::ClubManager()
     headNum = NONE_NEXT_REMOVED_RECORD_AVAILABLE;
 }
 
-ClubManager& ClubManager::clone(ClubManager prevClubManager, int recordMode) { // deep copy, copy data to new memory address
-    ClubManager* cloneClubManager = new ClubManager();                          // avoid lost data when change season data
+// deep copy, copy data to new memory address
+// avoid lost data when change season data
+ClubManager& ClubManager::clone(ClubManager prevClubManager, int recordMode) {
+    ClubManager* cloneClubManager = new ClubManager();
     cloneClubManager->headNum = NONE_NEXT_REMOVED_RECORD_AVAILABLE;
 
-    for (std::list<ClubRecord>::iterator iteRecord = prevClubManager.clubsJoined.begin();
-         iteRecord != prevClubManager.clubsJoined.end(); iteRecord++) {     // clubjoined
-        cloneClubManager->clubsJoined.push_back(ClubRecord::clone(*iteRecord, recordMode));
+    //clone all club join in this season
+    for (std::list<ClubRecord>::iterator clubIterator = prevClubManager.clubsJoined.begin();
+         clubIterator != prevClubManager.clubsJoined.end(); clubIterator++) {
+        cloneClubManager->clubsJoined.push_back(ClubRecord::clone(*clubIterator, recordMode));
     }
 
+    //clone all club left from this season
     for (std::list<ClubRecord>::iterator iteRecord = prevClubManager.clubsLeft.begin();
-         iteRecord != prevClubManager.clubsLeft.end(); iteRecord++) {       // club left
+         iteRecord != prevClubManager.clubsLeft.end(); iteRecord++) {
         cloneClubManager->clubsLeft.push_back(ClubRecord::clone(*iteRecord, recordMode));
     }
 
@@ -75,7 +79,7 @@ bool ClubManager::addClub(ClubRecord newClub) {
         clubsLeft.remove(newClub);
     }
 
-    if(headNum == NONE_NEXT_REMOVED_RECORD_AVAILABLE) { // doesn't have any avail space, add new to the end of the list
+    if(headNum == NONE_NEXT_REMOVED_RECORD_AVAILABLE) {
         newClub.setRRN(clubsJoined.size());
         clubsJoined.push_back(newClub);
     }
@@ -149,7 +153,7 @@ void ClubManager::defragment() {
 
 bool ClubManager::isClubExist(ClubRecord aClub) {
 
-    std::list<ClubRecord>::const_iterator ite; // create list iterator
+    std::list<ClubRecord>::const_iterator ite;
     ite = clubsJoined.begin();
 
     for(ite; ite != clubsJoined.end(); ite++)
@@ -164,9 +168,12 @@ bool ClubManager::isClubExist(ClubRecord aClub) {
 std::string ClubManager::writeToString() {
     std::string presentor = "";
     presentor = std::to_string(headNum) + " ";
+
+    //iterate until element before last
     for (std::list<ClubRecord>::iterator it = clubsJoined.begin(); it != --clubsJoined.end(); it++) {
-        presentor += ((ClubRecord)*it).getName() + "|"; // last character "|"
+        presentor += ((ClubRecord)*it).getName() + "|";
     }
+    //avoiding write '|' at the last file
     presentor += clubsJoined.back().getName();
 
     return presentor;

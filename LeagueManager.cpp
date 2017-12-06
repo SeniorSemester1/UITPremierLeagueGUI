@@ -18,6 +18,7 @@ void LeagueManager::readData(std::string path) {
     try {
         reader = new DataReader(path);
         league = reader->readLeague();
+
         switch (league->getMode()) {
         case FIRST_FIT_MODE:
             Logger::logStr += "First fit mode\n";
@@ -32,6 +33,7 @@ void LeagueManager::readData(std::string path) {
         league->addSeason(aSeason);
         for (int idxSeason = 0; idxSeason < league->getSeasonNum() - 1; idxSeason++) {
             readSeason(idxSeason);
+            //clone current season
             league->addSeason(Season::clone(league->getSeason(idxSeason), league->getMode()));
 
             writePlayer2File(idxSeason);
