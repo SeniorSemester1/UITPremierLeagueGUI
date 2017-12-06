@@ -10,17 +10,17 @@ ClubManager::ClubManager()
     headNum = NONE_NEXT_REMOVED_RECORD_AVAILABLE;
 }
 
-ClubManager& ClubManager::clone(ClubManager prevClubManager, int recordMode) {
-    ClubManager* cloneClubManager = new ClubManager();
+ClubManager& ClubManager::clone(ClubManager prevClubManager, int recordMode) { // deep copy, copy data to new memory address
+    ClubManager* cloneClubManager = new ClubManager();                          // avoid lost data when change season data
     cloneClubManager->headNum = NONE_NEXT_REMOVED_RECORD_AVAILABLE;
 
     for (std::list<ClubRecord>::iterator iteRecord = prevClubManager.clubsJoined.begin();
-         iteRecord != prevClubManager.clubsJoined.end(); iteRecord++) {
+         iteRecord != prevClubManager.clubsJoined.end(); iteRecord++) {     // clubjoined
         cloneClubManager->clubsJoined.push_back(ClubRecord::clone(*iteRecord, recordMode));
     }
 
     for (std::list<ClubRecord>::iterator iteRecord = prevClubManager.clubsLeft.begin();
-         iteRecord != prevClubManager.clubsLeft.end(); iteRecord++) {
+         iteRecord != prevClubManager.clubsLeft.end(); iteRecord++) {       // club left
         cloneClubManager->clubsLeft.push_back(ClubRecord::clone(*iteRecord, recordMode));
     }
 
@@ -165,7 +165,7 @@ std::string ClubManager::writeToString() {
     std::string presentor = "";
     presentor = std::to_string(headNum) + " ";
     for (std::list<ClubRecord>::iterator it = clubsJoined.begin(); it != --clubsJoined.end(); it++) {
-        presentor += ((ClubRecord)*it).getName() + "|";
+        presentor += ((ClubRecord)*it).getName() + "|"; // last character "|"
     }
     presentor += clubsJoined.back().getName();
 

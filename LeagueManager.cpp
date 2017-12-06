@@ -7,6 +7,9 @@
 #define ADD 1
 #define REMOVE 0
 
+#define FIRST_FIT_MODE 1
+#define BEST_FIT_MODE 0
+
 LeagueManager::LeagueManager() {
 
 }
@@ -15,6 +18,14 @@ void LeagueManager::readData(std::string path) {
     try {
         reader = new DataReader(path);
         league = reader->readLeague();
+        switch (league->getMode()) {
+        case FIRST_FIT_MODE:
+            Logger::logStr += "First fit mode";
+            break;
+        case BEST_FIT_MODE:
+            Logger::logStr += "Best fit mode";
+            break;
+        }
         writer = new DataWriter(league);
 
         Season aSeason;
