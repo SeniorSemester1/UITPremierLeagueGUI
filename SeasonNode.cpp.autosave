@@ -1,0 +1,13 @@
+#include "SeasonNode.h"
+
+bool Season::operator ==(Season* anotherSeason) {
+    if (this->Id == anotherSeason->getId())
+        return true;
+    return false;
+}
+
+bool Season::operator !=(Season* anotherSeason) {
+    if (this == anotherSeason)
+        return false;
+    return true;
+}
