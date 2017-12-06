@@ -20,7 +20,7 @@ League* DataReader::readLeague() {
 
     if (modeInt != 0 && modeInt != 1) {
         Logger::logStr += Logger::WRONG_RECORD_MODE_MSG;
-        throw Logger::WRONG_RECORD_MODE;
+        throw Logger::QUIT_NEEDED_SIGNAL;
     }
 
     League* league = new League(seasonInt, modeInt);
@@ -39,12 +39,12 @@ SeasonChangeWrapper* DataReader::readSeasonChange() {
 
     if (clubChangeInt < 0) {
         Logger::logStr += Logger::WRONG_CLUB_CHANGE_MSG;
-        throw Logger::WRONG_CLUB_CHANGE;
+        throw Logger::QUIT_NEEDED_SIGNAL;
     }
 
     if (playerChangeInt < 0) {
         Logger::logStr += Logger::WRONG_PLAYER_CHANGE_MSG;
-        throw Logger::WRONG_PLAYER_CHANGE;
+        throw Logger::QUIT_NEEDED_SIGNAL;
     }
 
     SeasonChangeWrapper* seasonChange = new SeasonChangeWrapper(clubChangeInt, playerChangeInt);
@@ -63,16 +63,16 @@ ClubChangeWrapper* DataReader::readClub()
 
     if (modeInt != 0 && modeInt != 1) {
         Logger::logStr += Logger::WRONG_DML_MODE_MSG;
-        throw Logger::WRONG_DML_MODE;
+        throw Logger::QUIT_NEEDED_SIGNAL;
     }
 
     if (name.size() > 3) {
         Logger::logStr += Logger::CLUB_SIZE_TOO_LONG_MSG;
-        throw Logger::CLUB_SIZE_TOO_LONG_MSG;
+        throw Logger::QUIT_NEEDED_SIGNAL;
     }
     if (name.size() < 3) {
         Logger::logStr += Logger::CLUB_SIZE_TOO_SHORT_MSG;
-        throw Logger::CLUB_SIZE_TOO_SHORT_MSG;
+        throw Logger::QUIT_NEEDED_SIGNAL;
     }
 
     ClubChangeWrapper* wrapper = new ClubChangeWrapper(modeInt, name);
@@ -91,7 +91,7 @@ PlayerChangeWrapper* DataReader::readPlayer() {
 
     if (modeInt != 0 && modeInt != 1) {
         Logger::logStr += Logger::WRONG_DML_MODE_MSG;
-        throw Logger::WRONG_DML_MODE;
+        throw Logger::QUIT_NEEDED_SIGNAL;
     }
 
     PlayerChangeWrapper* wrapper = new PlayerChangeWrapper(modeInt, playerName, clubName);

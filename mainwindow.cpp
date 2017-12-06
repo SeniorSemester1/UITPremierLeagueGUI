@@ -20,6 +20,9 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_seasonCombox_currentIndexChanged(int index)
 {
+    if (index == -1)
+        return;
+
     this->currSeason = index;
 
     ui->clubCombox->clear();
@@ -77,11 +80,20 @@ void MainWindow::on_BrowseBtn_clicked()
     QString filename = QFileDialog::getOpenFileName();
     ui->PathLineEdit->setText(filename);
 
+    Logger::logStr = "";
+    ui->seasonCombox->clear();
+    ui->clubCombox->clear();
+
+    ui->seasonTxt->setText("");
+    ui->clubTxt->setText("");
+
     try {
+
          manager = new LeagueManager();
          manager->readData(filename.toStdString());
          manager->writeClub2File("CLUBS.txt");
          manager->writePlayer2File();
+
          for (int idxSeason = 0; idxSeason < manager->getLeague()->getSeasonNum(); idxSeason++) {
           ui->seasonCombox->addItem(QVariant(idxSeason + 1).toString());
          }
