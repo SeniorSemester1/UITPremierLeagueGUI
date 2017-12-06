@@ -34,8 +34,21 @@ SeasonChangeWrapper* DataReader::readSeasonChange() {
 
     Logger::logStr += clubChangeStr + " " + playerChangeStr + "\n";
 
-    int clubChangeInt = std::stoi(clubChangeStr);
-    int playerChangeInt = std::stoi(playerChangeStr);
+    int clubChangeInt, playerChangeInt;
+    try {
+        clubChangeInt = std::stoi(clubChangeStr);
+
+    } catch (std::invalid_argument ia) {
+        Logger::logStr += Logger::WRONG_CLUB_CHANGE_MSG;
+        throw Logger::QUIT_NEEDED_SIGNAL;
+    }
+
+    try {
+        playerChangeInt = std::stoi(playerChangeStr);
+    } catch (std::invalid_argument ia) {
+        Logger::logStr += Logger::WRONG_PLAYER_CHANGE_MSG;
+        throw Logger::QUIT_NEEDED_SIGNAL;
+    }
 
     if (clubChangeInt < 0) {
         Logger::logStr += Logger::WRONG_CLUB_CHANGE_MSG;

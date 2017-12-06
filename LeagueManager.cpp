@@ -98,7 +98,7 @@ void LeagueManager::readPlayer(int playerChangeNum, int idxSeason) {
                         Logger::logStr += "Add player successfully\n";
                     }
                     else
-                        Logger::logStr += "Add player failed";
+                        Logger::logStr += "Add player failed\n";
                     break;
                 case REMOVE:
                     if (league->getSeason(idxSeason).getClubManager()->getClub(aClub)
