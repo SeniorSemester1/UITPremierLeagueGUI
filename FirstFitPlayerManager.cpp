@@ -35,22 +35,26 @@ bool FirstFitPlayerManager::addPlayer(PlayerRecord newPlayer) {
                 if (prevRecord != NULL) {
                     prevRecord->setNextAvailRecordPos(currRecord->getNextAvailRecordPos());
                 }
+                else {
+                    headNum = currRecord->getNextAvailRecordPos();
+                }
                 //delete value in current record
                 //insert newPlayer to current record
                 //update headNum
                 currRecord->setName(newPlayer.getName());
-                headNum = currRecord->getNextAvailRecordPos();
+
                 currRecord->setNextAvailRecordPos(-1);
+                break;
             }
 
             prevRecord = currRecord;
             nextAvailPos = currRecord->getNextAvailRecordPos();
             //too long => add tail
-            if(nextAvailPos == -1)
-                playersJoined.push_back(newPlayer);
 
         } while (nextAvailPos != -1);
         //firstFitPlayerRecord->setName(newPlayer.getName());
+        if(nextAvailPos == -1)
+            playersJoined.push_back(newPlayer);
     }
     return true;
 }

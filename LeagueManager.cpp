@@ -20,10 +20,10 @@ void LeagueManager::readData(std::string path) {
         league = reader->readLeague();
         switch (league->getMode()) {
         case FIRST_FIT_MODE:
-            Logger::logStr += "First fit mode";
+            Logger::logStr += "First fit mode\n";
             break;
         case BEST_FIT_MODE:
-            Logger::logStr += "Best fit mode";
+            Logger::logStr += "Best fit mode\n";
             break;
         }
         writer = new DataWriter(league);
