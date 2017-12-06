@@ -19,11 +19,13 @@ private:
 public:
     LeagueManager();
     void readData(std::string path);
-    void writeClub2File(std::string path);
+
+    void writeClub2File();
     void writePlayer2File();
     void writePlayer2File(int );
 
     League* getLeague() { return league; }
+    void setOutputPath(std::string path);
 };
 
 #endif // LEAGUEMANAGER_H

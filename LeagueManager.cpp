@@ -11,7 +11,7 @@
 #define BEST_FIT_MODE 0
 
 LeagueManager::LeagueManager() {
-
+    writer = new DataWriter();
 }
 
 void LeagueManager::readData(std::string path) {
@@ -27,7 +27,7 @@ void LeagueManager::readData(std::string path) {
             Logger::logStr += "Best fit mode\n";
             break;
         }
-        writer = new DataWriter(league);
+        writer->setLeague(this->league);
 
         Season aSeason;
         league->addSeason(aSeason);
@@ -131,9 +131,9 @@ void LeagueManager::readPlayer(int playerChangeNum, int idxSeason) {
     }
 }
 
-void LeagueManager::writeClub2File(std::string path) {
+void LeagueManager::writeClub2File() {
     league->getSeason(league->getSeasonNum() - 1).getClubManager()->defragment();
-    writer->writeClub2File(path);
+    writer->writeClub2File();
 }
 
 void LeagueManager::writePlayer2File(int idxSeason) {
@@ -155,4 +155,8 @@ void LeagueManager::writePlayer2File() {
         aClub.getPlayerManager()->defragment();
         writer->writePlayer2File(aClub);
     }
+}
+
+void LeagueManager::setOutputPath(std::string path) {
+    writer->setWritePath(path);
 }

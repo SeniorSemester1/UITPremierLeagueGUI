@@ -6,11 +6,14 @@ class DataWriter
 {
 private:
     League* league;
+    std::string writePath;
 public:
-    DataWriter(League* league);
-    void writeClub2File(std::string );
+    DataWriter();
+    void writeClub2File();
     void writePlayer2File(ClubRecord, int);
     void writePlayer2File(ClubRecord );
+    void setWritePath(std::string path);
+    void setLeague(League* league);
 };
 
 #endif // DATAWRITER_H

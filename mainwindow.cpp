@@ -3,12 +3,15 @@
 #include "Logger.h"
 
 #include <QFileDialog>
+#include <QMessageBox>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
     currSeason = 0;
+    openFileName = "";
+    saveDirectoryName = "";
 
     ui->setupUi(this);
 }
@@ -75,23 +78,37 @@ std::list<ClubRecord>::iterator MainWindow::iterate2Index(int idx) {
     return clubIterator;
 }
 
-void MainWindow::on_BrowseBtn_clicked()
+void MainWindow::on_openBrowseBtn_clicked()
 {
-    QString filename = QFileDialog::getOpenFileName();
-    ui->PathLineEdit->setText(filename);
+    openFileName = QFileDialog::getOpenFileName();
+    ui->PathLineEdit->setText(openFileName);
 
-    Logger::logStr = "";
-    ui->seasonCombox->clear();
-    ui->clubCombox->clear();
+    clearContent();
+}
 
-    ui->seasonTxt->setText("");
-    ui->clubTxt->setText("");
+void MainWindow::on_saveBrowseBtn_clicked()
+{
+    saveDirectoryName = QFileDialog::getExistingDirectory();
+    ui->saveEditTxt->setText(saveDirectoryName);
 
+    clearContent();
+}
+
+void MainWindow::on_startBtn_clicked()
+{
+    if (openFileName.size() == 0) {
+        QMessageBox::critical(this, "Error", "You need to select file to open", QMessageBox::Ok);
+        return;
+    }
+
+    clearContent();
     try {
 
         manager = new LeagueManager();
-        manager->readData(filename.toStdString());
-        manager->writeClub2File("CLUBS.txt");
+        if (saveDirectoryName.size() > 0)
+            manager->setOutputPath(saveDirectoryName.toStdString() + "/");
+        manager->readData(openFileName.toStdString());
+        manager->writeClub2File();
         manager->writePlayer2File();
 
         for (int idxSeason = 0; idxSeason < manager->getLeague()->getSeasonNum(); idxSeason++) {
@@ -103,5 +120,20 @@ void MainWindow::on_BrowseBtn_clicked()
         ui->PrcTxt->setText(QString::fromStdString(Logger::logStr));
     }
 
+}
 
+void MainWindow::on_closeBtn_clicked()
+{
+    QApplication::quit();
+}
+
+void MainWindow::clearContent()
+{
+    Logger::logStr = "";
+    ui->PrcTxt->setText("");
+    ui->seasonCombox->clear();
+    ui->clubCombox->clear();
+
+    ui->seasonTxt->setText("");
+    ui->clubTxt->setText("");
 }

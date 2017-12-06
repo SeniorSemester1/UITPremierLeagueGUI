@@ -21,7 +21,13 @@ private slots:
 
     void on_clubCombox_currentIndexChanged(int index);
 
-    void on_BrowseBtn_clicked();
+    void on_openBrowseBtn_clicked();
+
+    void on_saveBrowseBtn_clicked();
+
+    void on_startBtn_clicked();
+
+    void on_closeBtn_clicked();
 
 private:
     Ui::MainWindow *ui;
@@ -29,8 +35,11 @@ private:
     LeagueManager* manager;
 
     int currSeason;
+    QString openFileName;
+    QString saveDirectoryName;
 
     std::list<ClubRecord>::iterator iterate2Index(int );
+    void clearContent();
 };
 
 #endif // MAINWINDOW_H
